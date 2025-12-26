@@ -2,6 +2,7 @@ package com.myai.spring_ai.controller;
 
 import com.myai.spring_ai.advisor.SimpleMessageChatMemoryAdvisor;
 import com.myai.spring_ai.service.ChatModelService;
+import com.myai.spring_ai.tool.TimeTools;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -36,6 +37,7 @@ public class AiModelController {
                 .build();
         this.chatClient = builder
                 .defaultAdvisors(messageChatMemoryAdvisor)
+                .defaultTools(new TimeTools())
                 .build();
     }
 
@@ -99,6 +101,17 @@ public class AiModelController {
         return chatClient.prompt()
                 .user(finalPromptText) // 替换原有的.user(query)，使用模板生成的Prompt
                 .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, conversationId)) // 传递会话ID（记忆）
+                .call()
+                .content();
+    }
+    @GetMapping("testTimeTools")
+    public String testTimeTools(@RequestParam String query,
+                                         @RequestParam String conversationId) {
+
+        return chatClient.prompt()
+                .user(query)
+                // 把会话ID作为参数传递给SimpleMessageChatMemoryAdvisor
+                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .call()
                 .content();
     }
