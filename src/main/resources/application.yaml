@@ -1,16 +1,41 @@
+# Spring Boot 应用核心配置
 server:
+  # 应用访问端口
   port: 8080
   servlet:
+    # HTTP 请求/响应编码配置
     encoding:
-      charset: utf-8
-      enabled: true
-      force: true
+      charset: utf-8         # 指定编码格式为UTF-8，防止中文乱码
+      enabled: true          # 启用编码自动配置
+      force: true            # 强制所有请求/响应使用指定的UTF-8编码
 
+# Spring 核心配置
 spring:
+  # Spring AI 智谱AI配置（GLM大模型）
   ai:
     zhipuai:
-      api-key: ${GML_API_KEY}
-      base-url: "https://open.bigmodel.cn/api/paas"
+      api-key: ${GML_API_KEY}  # 智谱AI API密钥（通过环境变量注入，更安全）
+      base-url: "https://open.bigmodel.cn/api/paas"  # 智谱AI服务基础地址
+      # 对话模型配置
       chat:
         options:
-          model: glm-4.5
+          model: glm-4.5  # 对话使用的模型：glm-4.5
+      # 文本嵌入模型配置（用于将文本转换为向量数据）
+      embedding:
+        options:
+          model: embedding-3  # 嵌入模型名称
+          dimensions: 256     # 嵌入向量维度（需与Redis向量索引维度保持一致）
+
+  # 向量存储配置（基于Redis Stack）
+    vectorstore:
+      redis:
+        initialize-schema: true          # 首次部署时自动创建Redis向量索引结构，无需手动创建
+        prefix: yuyan_rag_prefix       # Redis键名前缀，用于区分不同应用的向量数据，避免冲突
+        index_name: yuyan_rag_index       # Redis向量索引名称，检索向量数据时的核心标识
+
+
+  # Redis 数据源基础连接配置
+  data:
+    redis:
+      host: ${REDIS_STACK_HOST}  # Redis服务器IP地址（本地测试可改为localhost，生产环境填服务器公网/内网IP）
+      port: 6379            # Redis默认服务端口（需确保服务器安全组/防火墙已开放该端口）

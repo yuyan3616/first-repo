@@ -1,4 +1,4 @@
-package com.myai.spring_ai;
+package com.myai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

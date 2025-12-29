@@ -1,21 +1,18 @@
-package com.myai.spring_ai.controller;
+package com.myai.controller;
 
-import com.myai.spring_ai.advisor.SimpleMessageChatMemoryAdvisor;
-import com.myai.spring_ai.service.ChatModelService;
-import com.myai.spring_ai.tool.TimeTools;
-import lombok.RequiredArgsConstructor;
+import com.myai.advisor.SimpleMessageChatMemoryAdvisor;
+import com.myai.service.ChatModelService;
+import com.myai.tool.TimeTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/api")

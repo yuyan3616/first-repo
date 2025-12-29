@@ -1,4 +1,4 @@
-package com.myai.spring_ai.service;
+package com.myai.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
